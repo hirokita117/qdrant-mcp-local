@@ -2,20 +2,24 @@ FROM python:3.11-slim
 
 WORKDIR /app
 
-# Install uv for package management
+# 必要なパッケージをインストール
+RUN apt-get update && apt-get install -y curl && \
+    pip install --no-cache-dir pip --upgrade
+
+# uvとmcp-server-qdrantのインストール
 RUN pip install --no-cache-dir uv
+RUN pip install --no-cache-dir mcp-server-qdrant
 
-# Install the mcp-server-qdrant package
-RUN uv pip install --system --no-cache-dir mcp-server-qdrant
+# インストールされたコマンドの確認
+RUN pip list && \
+    which mcp-server-qdrant || echo "mcp-server-qdrant not found in PATH"
 
-# Expose the default port for SSE transport
+# 健全性確認用のデバッグスクリプトを作成
+RUN echo "#!/bin/bash\necho 'Starting MCP Server...'\nexec mcp-server-qdrant --transport sse" > /app/start.sh && \
+    chmod +x /app/start.sh
+
+# SSE用のポートを公開
 EXPOSE 8000
 
-# Set environment variables with defaults that can be overridden at runtime
-ENV QDRANT_URL=""
-ENV QDRANT_API_KEY=""
-ENV COLLECTION_NAME="default-collection"
-ENV EMBEDDING_MODEL="sentence-transformers/all-MiniLM-L6-v2"
-
-# Run the server with SSE transport
-CMD uvx mcp-server-qdrant --transport sse
+# デバッグスクリプトを使って起動
+CMD ["/app/start.sh"]

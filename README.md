@@ -25,7 +25,13 @@ git clone https://github.com/hirokita117/qdrant-mcp-local.git
 cd qdrant-mcp-local
 ```
 
-2. Docker Composeを使って環境を起動します（初回はビルドに少し時間がかかります）：
+2. データ保存用のディレクトリを作成します：
+
+```bash
+mkdir -p data
+```
+
+3. Docker Composeを使って環境を起動します（初回はビルドに少し時間がかかります）：
 
 ```bash
 docker compose up -d
@@ -35,17 +41,13 @@ docker compose up -d
 - Qdrant: http://localhost:6333
 - MCP Server: http://localhost:8000
 
-3. 環境を停止するには：
+4. 環境を停止するには：
 
 ```bash
 docker compose down
 ```
 
-永続データを完全に削除するには：
-
-```bash
-docker compose down -v
-```
+Qdrantのデータは`./data`ディレクトリに保存されるため、コンテナを停止しても情報は保持されます。
 
 ## 設定のカスタマイズ
 

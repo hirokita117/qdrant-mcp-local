@@ -1,0 +1,22 @@
+# Ignore Qdrant data directory
+/data/
+
+# macOS files
+.DS_Store
+
+# Log files
+*.log
+
+# Node.js dependency directories
+node_modules/
+
+# Python virtual environments
+venv/
+env/
+.env.local
+
+# IDE files
+.idea/
+.vscode/
+*.swp
+*.swo

@@ -4,13 +4,21 @@
 
 ## 基本的な使用方法
 
-### 1. 環境の起動
+### 1. 事前準備
+
+データ保存用のディレクトリを作成します：
+
+```bash
+mkdir -p data
+```
+
+### 2. 環境の起動
 
 ```bash
 docker compose up -d
 ```
 
-### 2. 環境の確認
+### 3. 環境の確認
 
 Qdrantサーバーが正常に起動しているか確認：
 
@@ -26,7 +34,7 @@ MCPサーバーの接続を確認：
 curl http://localhost:8000/health
 ```
 
-### 3. 環境の停止
+### 4. 環境の停止
 
 ```bash
 docker compose down
@@ -44,12 +52,22 @@ docker compose down
 - `COLLECTION_NAME`: Qdrantコレクション名
 - `EMBEDDING_MODEL`: 埋め込みモデル
 
-### ボリュームの管理
+### データの保存場所
 
-データは`qdrant_data`ボリュームに保存されます。完全に削除するには：
+Qdrantのデータは`./data`ディレクトリに保存されます。このディレクトリはホスト側に作成され、Dockerコンテナが削除されてもデータは保持されます。
 
-```bash
-docker compose down -v
+別の場所にデータを保存したい場合は、`docker-compose.yml`ファイルの以下の部分を編集してください：
+
+```yaml
+volumes:
+  - ./data:/qdrant/storage
+```
+
+例えば、絶対パスで指定する場合：
+
+```yaml
+volumes:
+  - /path/to/your/data:/qdrant/storage
 ```
 
 ## MCPクライアントとの連携
@@ -112,3 +130,13 @@ docker compose logs
 ### ポートの競合
 
 既に使用中のポートがある場合は、`.env`ファイルで別のポート番号を指定してください。
+
+### データディレクトリのパーミッション問題
+
+Qdrantがデータディレクトリに書き込めない場合、パーミッションを確認して調整してください：
+
+```bash
+chmod -R 777 data
+```
+
+ただし、本番環境ではより安全なパーミッション設定を検討してください。

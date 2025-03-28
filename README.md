@@ -55,19 +55,40 @@ Qdrantのデータは`./data`ディレクトリに保存されるため、コン
 
 ## トラブルシューティング
 
-エラーが発生した場合は、ログを確認してください：
+### コンテナが起動しない場合
+
+1. **デバッグスクリプトを実行**:
 
 ```bash
-docker compose logs
+chmod +x debug.sh
+./debug.sh
 ```
 
-特定のサービスのログだけを見るには：
+このスクリプトにより、環境の詳細情報とエラーの詳細が表示されます。
+
+2. **手動でログを確認**:
 
 ```bash
-docker compose logs qdrant
-# または
 docker compose logs mcp-server
 ```
+
+3. **コンテナ再構築**:
+
+環境を完全に再構築するには：
+
+```bash
+docker compose down
+docker compose build --no-cache
+docker compose up -d
+```
+
+4. **一般的な問題と解決策**:
+
+- **ポート競合**: 6333または8000ポートが既に使用されている場合は、`.env`ファイルで別のポートを指定してください。
+- **ディスク容量**: Docker用のディスク容量が不足していないか確認してください。
+- **Dockerデーモン**: Dockerデーモンが正常に動作しているか確認してください。
+
+詳細なトラブルシューティングについては、[docs/USAGE.md](docs/USAGE.md)を参照してください。
 
 ## 使用例
 

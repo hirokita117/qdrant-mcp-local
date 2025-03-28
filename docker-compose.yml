@@ -1,0 +1,40 @@
+version: '3'
+
+services:
+  qdrant:
+    image: qdrant/qdrant:latest
+    ports:
+      - "${QDRANT_PORT:-6333}:6333"
+      - "${QDRANT_HTTP_PORT:-6334}:6334"
+    volumes:
+      - qdrant_data:/qdrant/storage
+    networks:
+      - qdrant_network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:6333/readiness"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 5s
+  
+  mcp-server:
+    image: ${MCP_SERVER_IMAGE:-qdrant/mcp-server-qdrant:latest}
+    ports:
+      - "${MCP_SERVER_PORT:-8000}:8000"
+    environment:
+      - QDRANT_URL=http://qdrant:6333
+      - COLLECTION_NAME=${COLLECTION_NAME:-default-collection}
+      - EMBEDDING_MODEL=${EMBEDDING_MODEL:-sentence-transformers/all-MiniLM-L6-v2}
+    depends_on:
+      qdrant:
+        condition: service_healthy
+    networks:
+      - qdrant_network
+
+networks:
+  qdrant_network:
+    driver: bridge
+
+volumes:
+  qdrant_data:
+    driver: local

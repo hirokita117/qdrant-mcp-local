@@ -7,7 +7,7 @@
 ### 1. 環境の起動
 
 ```bash
-docker-compose up -d
+docker compose up -d
 ```
 
 ### 2. 環境の確認
@@ -29,7 +29,7 @@ curl http://localhost:8000/health
 ### 3. 環境の停止
 
 ```bash
-docker-compose down
+docker compose down
 ```
 
 ## 高度な使用方法
@@ -49,7 +49,7 @@ docker-compose down
 データは`qdrant_data`ボリュームに保存されます。完全に削除するには：
 
 ```bash
-docker-compose down -v
+docker compose down -v
 ```
 
 ## MCPクライアントとの連携
@@ -106,7 +106,7 @@ MCPクライアントを使って保存した情報を検索します：
 ログを確認：
 
 ```bash
-docker-compose logs
+docker compose logs
 ```
 
 ### ポートの競合

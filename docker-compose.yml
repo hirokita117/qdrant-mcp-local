@@ -32,6 +32,14 @@ services:
         condition: service_healthy
     networks:
       - qdrant_network
+    # デバッグ用：常にコンテナを再起動
+    restart: on-failure
+    # コンテナビルド時のログ出力を増やす
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
 
 networks:
   qdrant_network:

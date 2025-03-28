@@ -25,7 +25,7 @@ git clone https://github.com/hirokita117/qdrant-mcp-local.git
 cd qdrant-mcp-local
 ```
 
-2. Docker Composeを使って環境を起動します：
+2. Docker Composeを使って環境を起動します（初回はビルドに少し時間がかかります）：
 
 ```bash
 docker-compose up -d
@@ -50,6 +50,22 @@ docker-compose down -v
 ## 設定のカスタマイズ
 
 `.env`ファイルを編集することで、環境変数を変更できます。
+
+## トラブルシューティング
+
+エラーが発生した場合は、ログを確認してください：
+
+```bash
+docker-compose logs
+```
+
+特定のサービスのログだけを見るには：
+
+```bash
+docker-compose logs qdrant
+# または
+docker-compose logs mcp-server
+```
 
 ## 使用例
 

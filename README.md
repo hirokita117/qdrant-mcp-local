@@ -14,7 +14,7 @@
 ### 前提条件
 
 - Docker
-- Docker Compose
+- Docker Compose V2 (現在のDockerには通常組み込まれています)
 
 ### 使用方法
 
@@ -28,7 +28,7 @@ cd qdrant-mcp-local
 2. Docker Composeを使って環境を起動します（初回はビルドに少し時間がかかります）：
 
 ```bash
-docker-compose up -d
+docker compose up -d
 ```
 
 これにより以下のサービスが起動します：
@@ -38,13 +38,13 @@ docker-compose up -d
 3. 環境を停止するには：
 
 ```bash
-docker-compose down
+docker compose down
 ```
 
 永続データを完全に削除するには：
 
 ```bash
-docker-compose down -v
+docker compose down -v
 ```
 
 ## 設定のカスタマイズ
@@ -56,15 +56,15 @@ docker-compose down -v
 エラーが発生した場合は、ログを確認してください：
 
 ```bash
-docker-compose logs
+docker compose logs
 ```
 
 特定のサービスのログだけを見るには：
 
 ```bash
-docker-compose logs qdrant
+docker compose logs qdrant
 # または
-docker-compose logs mcp-server
+docker compose logs mcp-server
 ```
 
 ## 使用例

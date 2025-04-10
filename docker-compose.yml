@@ -10,13 +10,7 @@ services:
       - ./data:/qdrant/storage
     networks:
       - qdrant_network
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:6333/readiness"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
-      start_period: 5s
-  
+
   mcp-server:
     build:
       context: .
@@ -28,8 +22,7 @@ services:
       - COLLECTION_NAME=${COLLECTION_NAME:-default-collection}
       - EMBEDDING_MODEL=${EMBEDDING_MODEL:-sentence-transformers/all-MiniLM-L6-v2}
     depends_on:
-      qdrant:
-        condition: service_healthy
+      - qdrant
     networks:
       - qdrant_network
     # デバッグ用：常にコンテナを再起動
